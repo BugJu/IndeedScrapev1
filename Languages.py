@@ -1,159 +1,75 @@
-from enum import Enum
-from enum import Enum
+class Languages:
+    languages = {
+        # Allgemeine Programmiersprachen
+        "JAVA": 0,
+        "PYTHON": 0,
+        "JAVASCRIPT": 0,
+        "TYPESCRIPT": 0,
+        "C++": 0,
+        "C": 0,
+        "C#": 0,
+        "PHP": 0,
+        "RUBY": 0,
+        "SWIFT": 0,
+        "KOTLIN": 0,
+        "GO": 0,
+        "RUST": 0,
+        "OBJECTIVE-C": 0,
+        "DART": 0,
+        "PERL": 0,
+        "LUA": 0,
+        "BASH": 0,
+        "POWERSHELL": 0,
 
-class Languages(Enum):
-    PYTHON = 1
-    JAVA = 2
-    JAVASCRIPT = 3
-    C = 4
-    CPP = 5  # C++
-    CSHARP = 6  # C#
-    RUBY = 7
-    PHP = 8
-    SWIFT = 9
-    GO = 10
-    RUST = 11
-    KOTLIN = 12
-    SCALA = 13
-    PERL = 14
-    R = 15
-    SQL = 16
-    TYPESCRIPT = 17
-    OBJECTIVEC = 18
-    DART = 19
-    HASKELL = 20
-    LUA = 21
-    MATLAB = 22
-    VISUALBASIC = 23
-    DELPHI = 24
-    FORTRAN = 25
-    COBOL = 26
-    SHELL = 27
-    ASSEMBLY = 28
-    ERLANG = 29
-    FSHARP = 30
-    GROOVY = 31
-    JULIA = 32
-    ADA = 33
-    PROLOG = 34
-    SAS = 35
-    ABAP = 36
-    VHDL = 37
-    PL_SQL = 38
-    BASH = 39
-    POWERSHELL = 40
-    D = 41
-    ELIXIR = 42
-    CLOJURE = 43
-    SCRATCH = 44
-    AWK = 45
-    LABVIEW = 46
-    APEX = 47
-    SMALLTALK = 48
-    ALGOL = 49
-    BASIC = 50
+        # Web-Entwicklung
+        "HTML": 0,
+        "CSS": 0,
+        "SQL": 0,
 
-class Frameworks(Enum):
-    DJANGO = 1
-    FLASK = 2
-    FASTAPI = 3
-    PYRAMID = 4
-    SPRING = 5
-    HIBERNATE = 6
-    ASP_NET = 7
-    RUBY_ON_RAILS = 8
-    SINATRA = 9
-    LARAVEL = 10
-    SYMFONY = 11
-    CAKEPHP = 12
-    ZEND = 13
-    ANGULAR = 14
-    REACT = 15
-    VUE = 16
-    NEXTJS = 17
-    NUXTJS = 18
-    SVELTE = 19
-    EXPRESS = 20
-    KOA = 21
-    NESTJS = 22
-    SPRING_BOOT = 23
-    PLAY = 24
-    QUARKUS = 25
-    DOTNET_CORE = 26
-    BLAZOR = 27
-    IONIC = 28
-    XAMARIN = 29
-    QT = 30
-    GTK = 31
-    TKINTER = 32
-    KIVY = 33
-    UNITY = 34
-    UNREAL = 35
-    GODOT = 36
-    PHASER = 37
-    ELECTRON = 38
-    CORDOVA = 39
-    PHONEGAP = 40
-    JQUERY = 41
-    BOOTSTRAP = 42
-    MATERIAL_UI = 43
-    TAILWIND = 44
-    FOUNDATION = 45
-    BULMA = 46
-    TURBO = 47
-    HOTWIRE = 48
-    SAP_UI5 = 49
-    VAADIN = 50
-    STRUTS = 51
-    GRAILS = 52
-    MICRONAUT = 53
-    JINJA = 54
-    BOTTLE = 55
-    CHERRYPY = 56
-    WEB2PY = 57
-    TORNADO = 58
-    SANIC = 59
-    PYLONS = 60
-    TURBOGEARS = 61
-    HUG = 62
-    CELERY = 63
-    BLAZOR_SERVER = 64
-    MAVEN = 65
-    GRADLE = 66
-    JEST = 67
-    JASMINE = 68
-    MOCHA = 69
-    CYPRESS = 70
-    SELENIUM = 71
-    PLAYWRIGHT = 72
-    NIGHTWATCH = 73
-    ENZYME = 74
-    TESTCAFE = 75
-    CUCUMBER = 76
-    PYTEST = 77
-    UNITTEST = 78
-    NOSE = 79
-    ROCKET = 80
-    ACTIX = 81
-    YEW = 82
-    SAPHYR = 83
-    DJANGO_REST_FRAMEWORK = 84
-    RESTIFY = 85
-    LOOPBACK = 86
-    FEATHERS = 87
-    HAPI = 88
-    METEOR = 89
-    MOLECULER = 90
-    SAPPER = 91
-    MARKO = 92
-    ALPINEJS = 93
-    MOBX = 94
-    REDUX = 95
-    VITE = 96
-    GRIDSOME = 97
-    GATSBY = 98
-    DOCUSAURUS = 99
-    HEXO = 100
+        # Funktionale Sprachen
+        "SCALA": 0,
+        "HASKELL": 0,
+        "ERLANG": 0,
+        "ELIXIR": 0,
+        "F#": 0,
+        "OCAML": 0,
+        "CLOJURE": 0,
+        "LISP": 0,
+        "SCHEME": 0,
 
+        # Datenanalyse
+        "R": 0,
+        "MATLAB": 0,
+        "JULIA": 0,
+        "SAS": 0,
+        "SPSS": 0,
 
+        # Legacy/Enterprise
+        "COBOL": 0,
+        "FORTRAN": 0,
+        "VISUAL-BASIC": 0,
+        "DELPHI": 0,
+        "ADA": 0,
+        "PASCAL": 0,
+        "ASSEMBLY": 0,
 
+        # Weitere moderne/etablierte Sprachen
+        "GROOVY": 0,
+        "VB.NET": 0,
+        "APEX": 0,
+        "ABAP": 0,
+        "D": 0,
+        "SMALLTALK": 0,
+        "PROLOG": 0,
+        "AWK": 0,
+        "COFFEESCRIPT": 0,
+        "CRYSTAL": 0,
+        "FORTH": 0,
+        "HAXE": 0,
+        "NIM": 0,
+        "REXX": 0,
+        "VHDL": 0,
+        "VERILOG": 0,
+        "PL SQL": 0,
+        "TCL": 0
+    }
