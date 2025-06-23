@@ -49,5 +49,6 @@ class Technologies:
         "NEW_RELIC": 0,
         "SPLUNK": 0,
         "ZABBIX": 0,
-        "NAGIOS": 0
+        "NAGIOS": 0,
+        "LINUX": 0,
     }
