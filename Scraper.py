@@ -1,12 +1,10 @@
 import time
 
-from behave.i18n import languages
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumbase import Driver
-from seleniumbase.fixtures.constants import Charts
 
 import Ollama
 from Frameworks import Frameworks
@@ -92,4 +90,4 @@ class Scraper:
         print(self.languages.items())
         print(self.frameworks.items())
         print(self.technologies.items())
-        create_bar_chart(languages)
+        create_bar_chart(self.languages)

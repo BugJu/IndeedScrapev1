@@ -63,7 +63,6 @@ class Languages:
         "CRYSTAL": 0,
         "FORTH": 0,
         "HAXE": 0,
-        "NIM": 0,
         "REXX": 0,
         "VHDL": 0,
         "VERILOG": 0,
