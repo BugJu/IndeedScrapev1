@@ -1,15 +1,18 @@
 import time
 
+from behave.i18n import languages
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumbase import Driver
+from seleniumbase.fixtures.constants import Charts
 
 import Ollama
 from Frameworks import Frameworks
 from Languages import Languages
 from Technologies import Technologies
+from charts import create_bar_chart
 
 
 class Scraper:
@@ -28,7 +31,7 @@ class Scraper:
         self.page_num = 2
 
     def init_driver(self):
-        self.driver = Driver(uc=True, headless=False)
+        self.driver = Driver(uc=True, headless=True)
         self.wait = WebDriverWait(self.driver, 10)
         self.ollama = Ollama.Ollama()
         self.driver.get(self.base_url)
@@ -78,14 +81,15 @@ class Scraper:
 
     def scrape_with_skl(self, job_desc):
         for language in self.languages:
-            if language.lower() in (job_desc.text.lower().split()):
+            if language.lower() in (job_desc.text.lower().split()) or language.lower() in (job_desc.text.lower()):
                 self.languages[language] += 1
         for framework in self.frameworks:
-            if framework.lower() in (job_desc.text.lower().split()):
+            if framework.lower() in (job_desc.text.lower().split()) or framework.lower() in (job_desc.text.lower()):
                 self.frameworks[framework] += 1
         for technology in self.technologies:
-            if technology.lower() in (job_desc.text.lower().split()):
+            if technology.lower() in (job_desc.text.lower().split()) or technology.lower() in (job_desc.text.lower()):
                 self.technologies[technology] += 1
         print(self.languages.items())
         print(self.frameworks.items())
         print(self.technologies.items())
+        create_bar_chart(languages)

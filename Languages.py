@@ -6,7 +6,6 @@ class Languages:
         "JAVASCRIPT": 0,
         "TYPESCRIPT": 0,
         "C++": 0,
-        "C": 0,
         "C#": 0,
         "PHP": 0,
         "RUBY": 0,
@@ -38,7 +37,6 @@ class Languages:
         "SCHEME": 0,
 
         # Datenanalyse
-        "R": 0,
         "MATLAB": 0,
         "JULIA": 0,
         "SAS": 0,
@@ -58,7 +56,6 @@ class Languages:
         "VB.NET": 0,
         "APEX": 0,
         "ABAP": 0,
-        "D": 0,
         "SMALLTALK": 0,
         "PROLOG": 0,
         "AWK": 0,
