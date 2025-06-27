@@ -1,5 +1,5 @@
 import time
-
+import threading
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -27,6 +27,7 @@ class Scraper:
         self.wait = None
         self.ollama = None
         self.page_num = 2
+        self.stop_event = threading.Event()
 
     def init_driver(self):
         self.driver = Driver(uc=True, headless=True)
@@ -36,6 +37,9 @@ class Scraper:
 
     def scrape(self):
         time.sleep(4)
+        if self.stop_event.is_set():
+            print("Scraping stopped")
+            self.driver.quit()
         try:
             self.driver.uc_gui_click_captcha()
         except:
@@ -64,6 +68,10 @@ class Scraper:
         print(len(jobs))
         time.sleep(2)
         for i in range(len(jobs)):
+            if self.stop_event.is_set():
+                print("Scraping stopped")
+                self.driver.quit()
+                break
             jobs = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='slider_item']")
             jobs[i].click()
             try:
@@ -87,7 +95,7 @@ class Scraper:
         for technology in self.technologies:
             if technology.lower() in (job_desc.text.lower().split()) or technology.lower() in (job_desc.text.lower()):
                 self.technologies[technology] += 1
-        print(self.languages.items())
-        print(self.frameworks.items())
-        print(self.technologies.items())
+        #print(self.languages.items())
+        #print(self.frameworks.items())
+        #print(self.technologies.items())
         create_bar_chart(self.languages)
