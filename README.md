@@ -1,10 +1,13 @@
 # IndeedScrapev1
 
-A web scraper for Indeed job listings that extracts programming languages and frameworks required in job descriptions using AI.
+A web scraper for Indeed job listings that extracts programming languages and frameworks required in job descriptions
+using AI.
 
 ## Description
 
-IndeedScrapev1 is a tool that automates the process of scraping job listings from Indeed's German website, specifically targeting software development positions. It uses Selenium for web scraping and the Ollama API with the Mistral language model to analyze job descriptions and extract the programming languages required for each position.
+IndeedScrapev1 is a tool that automates the process of scraping job listings from Indeed's German website, specifically
+targeting software development positions. It uses Selenium for web scraping and the Ollama API with the Mistral language
+model to analyze job descriptions and extract the programming languages required for each position.
 
 ## Features
 
@@ -55,11 +58,11 @@ IndeedScrapev1 is a tool that automates the process of scraping job listings fro
    ```
 
 3. The script will:
-   - Open Indeed's German website
-   - Handle cookies and CAPTCHA
-   - Scrape job listings for "Softwareentwickler"
-   - Extract and analyze job descriptions
-   - Print the programming languages required for each job
+    - Open Indeed's German website
+    - Handle cookies and CAPTCHA
+    - Scrape job listings for "Softwareentwickler"
+    - Extract and analyze job descriptions
+    - Print the programming languages required for each job
 
 ## Project Structure
 

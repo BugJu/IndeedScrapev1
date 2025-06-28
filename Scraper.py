@@ -28,10 +28,16 @@ class Scraper:
         self.ollama = None
         self.page_num = 2
         self.stop_event = threading.Event()
+        self.job_count = 0
+        self.max_pages = 5
+        self.max_jobs = 10
+        self.jobs_bool = False
+        self.ended = False
 
     def init_driver(self):
         self.driver = Driver(uc=True, headless=True)
         self.wait = WebDriverWait(self.driver, 10)
+        self.driver.maximize_window()
         self.ollama = Ollama.Ollama()
         self.driver.get(self.base_url)
 
@@ -52,9 +58,18 @@ class Scraper:
         except:
             time.sleep(1)
         time.sleep(5)
+        print(self.max_jobs)
+        print(self.max_pages)
         while self.wait.until(
                 EC.presence_of_all_elements_located(
-                    (By.CSS_SELECTOR, f"a[data-testid='pagination-page-{self.page_num}']"))):
+                    (By.CSS_SELECTOR, f"a[data-testid='pagination-page-{self.page_num}']"))) and not self.ended:
+            if not self.jobs_bool:
+                if self.page_num - 1 > self.max_pages:
+                    print("stopped because max pages are reached")
+                    break
+            if self.job_count > self.max_jobs:
+                print("stopped because max jobs are reached")
+                break
             if self.page_num > 2:
                 self.wait.until(
                     EC.presence_of_all_elements_located(
@@ -62,28 +77,40 @@ class Scraper:
             time.sleep(2)
             self.page_num += 1
             self.scrape_jobs(self.driver, self.wait, self.ollama, self.ai_bool)
+        self.driver.quit()
+        return self.languages
 
     def scrape_jobs(self, driver, wait, ollama, ai_bool):
         jobs = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[data-testid='slider_item']")))
         print(len(jobs))
         time.sleep(2)
         for i in range(len(jobs)):
+            self.job_count += 1
+            if self.jobs_bool:
+                if self.job_count > self.max_jobs:
+                    print("stopped because max pages are reached")
+                    self.driver.quit()
+                    self.ended = True
+                    return self.languages
             if self.stop_event.is_set():
                 print("Scraping stopped")
                 self.driver.quit()
+                self.ended = True
                 break
             jobs = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='slider_item']")
-            jobs[i].click()
+            jobs_i = wait.until(EC.element_to_be_clickable(jobs[i]))
+            jobs_i.click()
             try:
                 job_desc = wait.until(EC.presence_of_element_located((By.ID, "jobDescriptionText")))
                 print(f"Job {i + 1}:")
                 if ai_bool:
-                    requirements = ollama.generateAnswer(job_desc)
+                    ollama.generateAnswer(job_desc)
                 else:
                     self.scrape_with_skl(job_desc)
                 time.sleep(2)
             except TimeoutException:
                 raise Exception("Konnte Beschreibung für Job {i + 1} nicht laden")
+        return self.languages
 
     def scrape_with_skl(self, job_desc):
         for language in self.languages:
@@ -95,7 +122,6 @@ class Scraper:
         for technology in self.technologies:
             if technology.lower() in (job_desc.text.lower().split()) or technology.lower() in (job_desc.text.lower()):
                 self.technologies[technology] += 1
-        #print(self.languages.items())
-        #print(self.frameworks.items())
-        #print(self.technologies.items())
-        create_bar_chart(self.languages)
+        # print(self.languages.items())
+        # print(self.frameworks.items())
+        # print(self.technologies.items())
