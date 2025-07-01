@@ -105,7 +105,6 @@ class Frameworks:
         "BACKBONE": 0,
         "MARIONETTE": 0,
         "STIMULUS": 0,
-        "LIT": 0,
         "PREACT": 0,
         "INFERNO": 0,
         "SOLIDJS": 0,

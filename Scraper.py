@@ -1,16 +1,22 @@
 import time
 import threading
+
+import pandas as pd
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from seleniumbase import Driver
+import streamlit as st
+import altair as alt
+from string import punctuation
 
 import Ollama
 from Frameworks import Frameworks
 from Languages import Languages
 from Technologies import Technologies
-from charts import create_bar_chart
+
+
 
 
 class Scraper:
@@ -66,10 +72,13 @@ class Scraper:
             if not self.jobs_bool:
                 if self.page_num - 1 > self.max_pages:
                     print("stopped because max pages are reached")
+                    print("heier")
                     break
-            if self.job_count > self.max_jobs:
-                print("stopped because max jobs are reached")
-                break
+            else:
+                if self.job_count > self.max_jobs:
+                    print("stopped because max jobs are reached")
+                    print("heier #2")
+                    break
             if self.page_num > 2:
                 self.wait.until(
                     EC.presence_of_all_elements_located(
@@ -81,6 +90,9 @@ class Scraper:
         return self.languages
 
     def scrape_jobs(self, driver, wait, ollama, ai_bool):
+        chart_placeholder = st.empty()
+        progress = st.progress(0)
+        status = st.empty()
         jobs = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[data-testid='slider_item']")))
         print(len(jobs))
         time.sleep(2)
@@ -89,6 +101,7 @@ class Scraper:
             if self.jobs_bool:
                 if self.job_count > self.max_jobs:
                     print("stopped because max pages are reached")
+                    print("heier #3")
                     self.driver.quit()
                     self.ended = True
                     return self.languages
@@ -108,20 +121,43 @@ class Scraper:
                 else:
                     self.scrape_with_skl(job_desc)
                 time.sleep(2)
+
             except TimeoutException:
                 raise Exception("Konnte Beschreibung für Job {i + 1} nicht laden")
         return self.languages
 
     def scrape_with_skl(self, job_desc):
+        job_desc = job_desc.text.lower()
+        for char in punctuation:
+            if char in [" ", "#"]:  # Hier ignorieren wir Leerzeichen und #
+                continue
+            job_desc = job_desc.replace(char, " ")
         for language in self.languages:
-            if language.lower() in (job_desc.text.lower().split()) or language.lower() in (job_desc.text.lower()):
+            if language.lower() in (job_desc.split()):
                 self.languages[language] += 1
         for framework in self.frameworks:
-            if framework.lower() in (job_desc.text.lower().split()) or framework.lower() in (job_desc.text.lower()):
+            if framework.lower() in (job_desc.split()):
                 self.frameworks[framework] += 1
         for technology in self.technologies:
-            if technology.lower() in (job_desc.text.lower().split()) or technology.lower() in (job_desc.text.lower()):
+            if technology.lower() in (job_desc.split()):
                 self.technologies[technology] += 1
         # print(self.languages.items())
         # print(self.frameworks.items())
         # print(self.technologies.items())
+
+    def create_bar_chart(self, data_dict, chart_placeholder):
+        # Daten vorbereiten
+        sorted_dict = dict(sorted(data_dict.items(), key=lambda x: x[1], reverse=True))
+        df = pd.DataFrame(list(sorted_dict.items()), columns=['languages', 'count'])
+        df = df[df['count'] > 0].reset_index(drop=True)
+        df['count'] = df['count'].astype(float)
+
+        # Altair-Chart mit expliziten Datentypen
+        chart = alt.Chart(df).mark_bar().encode(
+            x=alt.X('languages:N', sort=alt.EncodingSortField(field='count', order='descending')),
+            # Sortierung nach count
+            y=alt.Y('count:Q')  # Expliziter quantitativer Typ
+        )
+
+        with chart_placeholder:
+            st.altair_chart(chart, use_container_width=True)
