@@ -17,8 +17,6 @@ from Languages import Languages
 from Technologies import Technologies
 
 
-
-
 class Scraper:
 
     def __init__(self):
@@ -63,7 +61,7 @@ class Scraper:
             print("cookies")
         except:
             time.sleep(1)
-        time.sleep(5)
+        time.sleep(2)
         print(self.max_jobs)
         print(self.max_pages)
         while self.wait.until(
@@ -90,9 +88,6 @@ class Scraper:
         return self.languages
 
     def scrape_jobs(self, driver, wait, ollama, ai_bool):
-        chart_placeholder = st.empty()
-        progress = st.progress(0)
-        status = st.empty()
         jobs = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[data-testid='slider_item']")))
         print(len(jobs))
         time.sleep(2)
@@ -110,10 +105,12 @@ class Scraper:
                 self.driver.quit()
                 self.ended = True
                 break
-            jobs = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='slider_item']")
-            jobs_i = wait.until(EC.element_to_be_clickable(jobs[i]))
-            jobs_i.click()
             try:
+
+                jobs = driver.find_elements(By.CSS_SELECTOR, "div[data-testid='slider_item']")
+                jobs_i = wait.until(EC.element_to_be_clickable(jobs[i]))
+                jobs_i.click()
+
                 job_desc = wait.until(EC.presence_of_element_located((By.ID, "jobDescriptionText")))
                 print(f"Job {i + 1}:")
                 if ai_bool:
@@ -123,11 +120,13 @@ class Scraper:
                 time.sleep(2)
 
             except TimeoutException:
-                raise Exception("Konnte Beschreibung für Job {i + 1} nicht laden")
+                print(f"Konnte Beschreibung für Job {i + 1} nicht laden")
+
         return self.languages
 
     def scrape_with_skl(self, job_desc):
         job_desc = job_desc.text.lower()
+        print(job_desc)
         for char in punctuation:
             if char in [" ", "#"]:  # Hier ignorieren wir Leerzeichen und #
                 continue

@@ -9,14 +9,14 @@ class ScraperController:
         self.scraper_thread = None
         self.stop_event = threading.Event()
 
-    def start_scrape(self, max_filter, jobs_filtered):
+    def start_scrape(self, max_jobs_filter, jobs_filtered):
         if self.scraper_thread and self.scraper_thread.is_alive():
             print("Scraping läuft bereits")
             return
 
         self.scraper.jobs_bool = jobs_filtered == "Jobs"
-        self.scraper.max_jobs = max_filter
-        self.scraper.max_pages = max_filter
+        self.scraper.max_jobs = max_jobs_filter
+        self.scraper.max_pages = max_jobs_filter
         self.stop_event.clear()
         self.scraper.stop_event = self.stop_event
         self.scraper.init_driver()

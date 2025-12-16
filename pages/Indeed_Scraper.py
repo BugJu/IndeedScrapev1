@@ -24,9 +24,9 @@ if start_scrape_button:
     st.write("Starting Scraping")
     with st.spinner(text="preparing Scrape...", show_time=True):
         if choice_max == "Jobs":
-            st.session_state.controller.start_scrape(max_filter=max_jobs, jobs_filtered="Jobs")
+            st.session_state.controller.start_scrape(max_jobs_filter=max_jobs, jobs_filtered="Jobs")
         else:
-            st.session_state.controller.start_scrape(max_filter=max_pages, jobs_filtered="Pages")
+            st.session_state.controller.start_scrape(max_jobs_filter=max_pages, jobs_filtered="Pages")
     st.success("Scraping started", icon="✅")
 
 if stop_scrape_button:
